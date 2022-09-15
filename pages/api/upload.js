@@ -9,7 +9,7 @@ export const config = {
 }
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'ff');
+        cb(null, 'build');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
