@@ -38,7 +38,7 @@ handler.get((req, res) => {
 
     const ws = reader.utils.json_to_sheet(fin);
     reader.utils.book_append_sheet(workBook, ws, 'ModSheet');
-    reader.writeFile(workBook, './public/TSS_MOD.xlsx');
+    reader.writeFile(workBook, '/tmp/TSS_MOD.xlsx');
     res.json({ data: "File upload completed" });
 });
 
