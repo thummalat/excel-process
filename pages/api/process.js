@@ -46,8 +46,7 @@ handler.get((req, res) => {
     reader.writeFile(workBook, '/tmp/TSS_MOD.xlsx');
     res.setHeader("Content-Disposition", `attachment; filename=TSS_MOD.xlsx`);
     res.setHeader("Content-Type", mime.getType('/tmp/TSS_MOD.xlsx'));
-    res.download('/tmp/TSS_MOD.xlsx')
-    // res.json({ data: "File upload completed", f:mime.getType('/tmp/TSS_MOD.xlsx') });
+    res.json({ data: "File upload completed", f:mime.getType('/tmp/TSS_MOD.xlsx') });
 });
 
 function readDataFromSheet(excelName,sheetName) {
