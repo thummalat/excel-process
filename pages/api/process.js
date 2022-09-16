@@ -1,5 +1,9 @@
 import * as reader from 'xlsx';
 import nc from 'next-connect';
+const os = require("os");
+
+// get temp directory
+const tempDir = os.tmpdir(); 
 
 const handler = nc({
     onError: (err, req, res, next) => {
@@ -39,7 +43,8 @@ handler.get((req, res) => {
     const ws = reader.utils.json_to_sheet(fin);
     reader.utils.book_append_sheet(workBook, ws, 'ModSheet');
     reader.writeFile(workBook, '/tmp/TSS_MOD.xlsx');
-    res.json({ data: "File upload completed" });
+
+    res.json({ data: "File upload completed", f:tempDir });
 });
 
 function readDataFromSheet(excelName,sheetName) {

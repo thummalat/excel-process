@@ -16,8 +16,10 @@ export default function Home() {
   const processFiles = (event) => {
     event.preventDefault();
     setIsProcessing(true);
-    axios.get('/api/process').then(() => {
+    axios.get('/api/process').then((d) => {
       r.current.value = "";
+      alert(d.f);
+      console.log(d);
       setIsProcessing(false);
       setSelectedFiles({});
       setShowResults(true);
