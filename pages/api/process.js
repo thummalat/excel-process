@@ -44,9 +44,13 @@ handler.get((req, res) => {
     const ws = reader.utils.json_to_sheet(fin);
     reader.utils.book_append_sheet(workBook, ws, 'ModSheet');
     reader.writeFile(workBook, '/tmp/TSS_MOD.xlsx');
+    const workBook_mod = reader.readFile('/tmp/TSS_MOD.xlsx');
+
+    const f = workBook_mod.SheetNames;
+
     res.setHeader("Content-Disposition", `attachment; filename=TSS_MOD.xlsx`);
     res.setHeader("Content-Type", mime.getType('/tmp/TSS_MOD.xlsx'));
-    res.json({ data: "File upload completed", f:mime.getType('/tmp/TSS_MOD.xlsx') });
+    res.json({ data: "File upload completed", f:mime.getType('/tmp/TSS_MOD.xlsx') , noOfSheets:f});
 });
 
 function readDataFromSheet(excelName,sheetName) {
