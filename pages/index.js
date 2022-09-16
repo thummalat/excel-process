@@ -44,7 +44,7 @@ export default function Home() {
         <p className=' text-red-400 mb-4 leading-loose tracking-normal'>This is to add <span className='font-bold'>NFA Id</span> and <span className='font-bold'>CRD Id</span> to <span className='font-bold'>TSS.xlsx</span>. Uploading files should be named as <span className='font-bold'>TSS.xlsx</span>,  <span className='font-bold'>NFA.xlsx</span> and <span className='font-bold'>FINRA.xlsx</span>  </p>
         <form className='bg-slate-100 p-4 pt-6 shadow-xl border rounded border-slate-300 border-solid'>
           <label htmlFor="files" className='pr-4 font-bold tracking-wide'>Select files:</label>
-          <input type='file' ref={r} className='font-bold' multiple name="files" onChange={handleFileSelecrtionChange} id="files"></input>
+          <input type='file' accept=".xlsx" ref={r} className='font-bold' multiple name="files" onChange={handleFileSelecrtionChange} id="files"></input>
           {selectedFiles.length > 0 ? <ul className='mt-8 mb-8 p-4 bg-slate-200'>
             <p className='font-bold text-center text-l pb-4'>Total files selected - {selectedFiles.length}</p>
             {Object.values(selectedFiles).map((file, index) => <li key={index} className='font-light pb-3 tracking-wide'>{file.name}</li>)}
