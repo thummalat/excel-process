@@ -24,7 +24,7 @@ handler.get((req, res) => {
     //     'Content-Length': stat.size
     // });
     // let readStream = fs.createReadStream('/tmp/TSS_MOD.xlsx');
-    res.sendDate(buffer)
+    res.send(buffer)
 });
 
 export default handler;
