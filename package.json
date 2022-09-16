@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && mkdir public",
+    "build": "next build && mkdir -p uploads",
     "start": "next start",
     "lint": "next lint"
   },
