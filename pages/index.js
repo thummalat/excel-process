@@ -13,6 +13,11 @@ export default function Home() {
     setShowResults(false);
     setSelectedFiles(event.target.files);
   }
+  const down =()=>{
+    axios.get('/api/down').then((d) => {
+      
+    })
+  }
   const processFiles = (event) => {
     event.preventDefault();
     setIsProcessing(true);
@@ -69,6 +74,7 @@ export default function Home() {
           {showResults ? <div className='mt-8 p-4 bg-sky-50 tracking-wide'>
             <p className='text-l font-bold mb-4'>Processed results:</p>
             <a className='underline underline-offset-4 text-blue-500 pl-4' href="/tmp/TSS_MOD.xlsx">Click here</a> to download processed file.
+            <button onClick={down}> Download</button>
           </div> : ''}
 
         </form>

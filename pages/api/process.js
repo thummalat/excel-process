@@ -50,7 +50,7 @@ handler.get((req, res) => {
 
     res.setHeader("Content-Disposition", `attachment; filename=TSS_MOD.xlsx`);
     res.setHeader("Content-Type", mime.getType('/tmp/TSS_MOD.xlsx'));
-    res.json({ data: "File upload completed", f:mime.getType('/tmp/TSS_MOD.xlsx') , noOfSheets:f});
+    res.json({ data: "File upload completed", noOfSheets:f});
 });
 
 function readDataFromSheet(excelName,sheetName) {
