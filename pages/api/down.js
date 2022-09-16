@@ -15,13 +15,16 @@ const handler = nc({
 });
 
 handler.get((req, res) => {
-    let stat = fs.statSync('/tmp/TSS_MOD.xlsx');
-    res.writeHead(200, {
-        'Content-Type':mime.getType('/tmp/TSS_MOD.xlsx'),
-        'Content-Length':stat.size
-    });
-    let readStream = fs.createReadStream('/tmp/TSS_MOD.xlsx');
-    readStream.pipe();
+    let buffer = fs.readFileSync('/tmp/TSS_MOD.xlsx');
+    res.setHeader("Content-Disposition", `attachment; filename=TSS_MOD.xlsx`);
+    res.setHeader("Content-Type", mime.getType('/tmp/TSS_MOD.xlsx'));
+
+    // res.writeHead(200, {
+    //     'Content-Type': mime.getType('/tmp/TSS_MOD.xlsx'),
+    //     'Content-Length': stat.size
+    // });
+    // let readStream = fs.createReadStream('/tmp/TSS_MOD.xlsx');
+    res.sendDate(buffer)
 });
 
 export default handler;
