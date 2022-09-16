@@ -10,7 +10,7 @@ export const config = {
 }
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.resolve(__dirname, 'uploads'));
+        cb(null, path.join(process.cwd(), 'uploads'));
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
