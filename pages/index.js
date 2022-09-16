@@ -13,9 +13,10 @@ export default function Home() {
     setShowResults(false);
     setSelectedFiles(event.target.files);
   }
-  const down =()=>{
+  const down =(event)=>{
+    event.preventDefault();
     axios.get('/api/down').then((d) => {
-      
+
     })
   }
   const processFiles = (event) => {
