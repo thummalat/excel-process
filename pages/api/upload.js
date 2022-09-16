@@ -1,6 +1,7 @@
 
 import nc from 'next-connect';
 import multer from "multer";
+import path from 'path';
 
 export const config = {
     api: {
@@ -9,7 +10,7 @@ export const config = {
 }
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads');
+        cb(null, path.resolve(__dirname, 'uploads'));
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
