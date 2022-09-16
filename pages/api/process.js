@@ -11,9 +11,9 @@ const handler = nc({
     },
 });
 handler.get((req, res) => {
-    const workBook = reader.readFile('./public/TSS.xlsx');
-    const workBook_NFA = reader.readFile('./public/NFA.xlsx');
-    const workBook_FINRA = reader.readFile('./public/FINRA.xlsx');
+    const workBook = reader.readFile('/tmp/TSS.xlsx');
+    const workBook_NFA = reader.readFile('/tmp/NFA.xlsx');
+    const workBook_FINRA = reader.readFile('/tmp/FINRA.xlsx');
     let TSSData = [];
     let NFAData = [];
     let FINRAData = [];
