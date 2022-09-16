@@ -17,7 +17,8 @@ const handler = nc({
 handler.get((req, res) => {
     let stat = fs.statSync('/tmp/TSS_MOD.xlsx');
     res.writeHead(200, {
-        'Content-Type':mime.getType('/tmp/TSS_MOD.xlsx')
+        'Content-Type':mime.getType('/tmp/TSS_MOD.xlsx'),
+        'Content-Length':stat.size
     });
     let readStream = fs.createReadStream('/tmp/TSS_MOD.xlsx');
     readStream.pipe();
