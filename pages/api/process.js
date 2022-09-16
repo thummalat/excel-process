@@ -1,6 +1,7 @@
 import * as reader from 'xlsx';
 import nc from 'next-connect';
 const os = require("os");
+const mime = require('mime');
 
 // get temp directory
 const tempDir = os.tmpdir(); 
@@ -43,8 +44,10 @@ handler.get((req, res) => {
     const ws = reader.utils.json_to_sheet(fin);
     reader.utils.book_append_sheet(workBook, ws, 'ModSheet');
     reader.writeFile(workBook, '/tmp/TSS_MOD.xlsx');
-
-    res.json({ data: "File upload completed", f:tempDir });
+    res.setHeader("Content-Disposition", `attachment; filename=TSS_MOD.xlsx`);
+    res.setHeader("Content-Type", mime.getType('/tmp/TSS_MOD.xlsx'));
+    res.download('/tmp/TSS_MOD.xlsx')
+    // res.json({ data: "File upload completed", f:mime.getType('/tmp/TSS_MOD.xlsx') });
 });
 
 function readDataFromSheet(excelName,sheetName) {
