@@ -2,11 +2,16 @@
 import nc from 'next-connect';
 import multer from "multer";
 import path from 'path';
+const fs = require('fs');
 
 export const config = {
     api: {
         bodyParser: false
     }
+}
+
+if(!fs.existsSync(path.join(process.cwd(), '.next/uploads'))){
+  fs.mkdirSync(path.join(process.cwd(), '.next/uploads'))
 }
 const fileStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
