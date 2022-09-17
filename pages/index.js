@@ -8,19 +8,6 @@ export default function Home() {
 
   const [selectedFiles, setSelectedFiles] = useState({});
   const [setData, data] = useState({});
-  const data1 = {
-    Data1: [
-      { name: 'gfg1', category: 'gfg4' },
-      { name: 'gfg2', category: 'gfg5' },
-      { name: 'gfg3', category: 'gfg6' },
-    ],
-    // Worksheet named pokemons
-    Data2: [
-      { name: 'gfg1', category: 'gfg1' },
-      { name: 'gfg1', category: 'gfg1' },
-      { name: 'gfg1', category: 'gfg1' },
-    ],
-  };
   const [showProcessedFiles, setShowProcessedFiles] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -34,7 +21,6 @@ export default function Home() {
     event.preventDefault();
     axios.get('/api/down').then((d) => {
       let f ={data1:d.data.data}
-      console.log(f);
       setData(f);
     })
   }
@@ -99,10 +85,9 @@ export default function Home() {
           </div> : ''}
 
         </form>
-        {data|JSON}
 
         <ExcelDownloder
-              data={data1}
+              data={data}
               filename={'book'}
               type={Type.Button} // or type={'button'}
             >
