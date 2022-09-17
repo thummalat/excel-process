@@ -81,7 +81,6 @@ export default function Home() {
             <button onClick={down}> Download</button>
           </div> : ''}
         </form>
-
         <ExcelDownloder
           className="mt-6 bg-blue-300 border border-solid"
           data={finalData}
