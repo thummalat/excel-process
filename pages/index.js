@@ -7,7 +7,7 @@ export default function Home() {
   let r = useRef();
 
   const [selectedFiles, setSelectedFiles] = useState({});
-  const [setFinalData,finalData] = useState();
+  const [setFinalData,finalData] = useState('');
   const [showProcessedFiles, setShowProcessedFiles] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -23,7 +23,7 @@ export default function Home() {
       let f ={data1:d.data.data}
       let ff = {data1:[{name:'thanuz'}]}
       console.log(f);
-      setFinalData(ff);
+      setFinalData('sdad');
     })
   }
   const processFiles = (event) => {
