@@ -30,8 +30,6 @@ export default function Home() {
     setIsProcessing(true);
     axios.get('/api/process').then((d) => {
       r.current.value = "";
-      alert(d.f);
-      console.log(d);
       setIsProcessing(false);
       setSelectedFiles({});
       setShowResults(true);
