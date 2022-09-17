@@ -1,10 +1,8 @@
 import * as reader from 'xlsx';
 import nc from 'next-connect';
-const os = require("os");
+
 const mime = require('mime');
 
-// get temp directory
-const tempDir = os.tmpdir(); 
 
 const handler = nc({
     onError: (err, req, res, next) => {
