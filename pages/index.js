@@ -1,9 +1,13 @@
 import { useRef, useState } from 'react'
 import axios from 'axios';
+import { useExcelDownloder } from 'react-xls';
 
 export default function Home() {
+  const { ExcelDownloder, Type } = useExcelDownloder();
   let r = useRef();
+
   const [selectedFiles, setSelectedFiles] = useState({});
+  const [setData, data] = useState([]);
   const [showProcessedFiles, setShowProcessedFiles] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -13,10 +17,10 @@ export default function Home() {
     setShowResults(false);
     setSelectedFiles(event.target.files);
   }
-  const down =(event)=>{
+  const down = (event) => {
     event.preventDefault();
     axios.get('/api/down').then((d) => {
-
+      setData(d.data);
     })
   }
   const processFiles = (event) => {
@@ -37,7 +41,7 @@ export default function Home() {
     if (Object.keys(selectedFiles).length === 0) {
       alert('please select files to upload');
     }
-    else if(isUploading){
+    else if (isUploading) {
       alert('Files are uploading Please wait.');
     }
     else {
@@ -70,12 +74,19 @@ export default function Home() {
           </ul> : ''}
 
           <div className='flex justify-end mt-8'>
-            {showProcessedFiles ? <button onClick={processFiles} className='ml-4 tracking-wide border-solid border bg-sky-50 px-6 py-1 mt-3 hover:bg-sky-100 border-sky-500' type='submit'>{isProcessing?'Processing..':'Process files'}</button> : <button onClick={uploadFiles} className='tracking-wide border-solid border text-white bg-sky-500 px-6 py-1 mt-3 hover:bg-sky-600 border-sky-500' type='submit'>{isUploading?'Uploading...':'Upload files'}</button>}
+            {showProcessedFiles ? <button onClick={processFiles} className='ml-4 tracking-wide border-solid border bg-sky-50 px-6 py-1 mt-3 hover:bg-sky-100 border-sky-500' type='submit'>{isProcessing ? 'Processing..' : 'Process files'}</button> : <button onClick={uploadFiles} className='tracking-wide border-solid border text-white bg-sky-500 px-6 py-1 mt-3 hover:bg-sky-600 border-sky-500' type='submit'>{isUploading ? 'Uploading...' : 'Upload files'}</button>}
           </div>
           {showResults ? <div className='mt-8 p-4 bg-sky-50 tracking-wide'>
             <p className='text-l font-bold mb-4'>Processed results:</p>
             <a className='underline underline-offset-4 text-blue-500 pl-4' href="/tmp/TSS_MOD.xlsx">Click here</a> to download processed file.
             <button onClick={down}> Download</button>
+            <ExcelDownloder
+              data={data}
+              filename={'book'}
+              type={Type.Button} // or type={'button'}
+            >
+              Download the Spreadsheet
+            </ExcelDownloder>
           </div> : ''}
 
         </form>
