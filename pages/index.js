@@ -7,7 +7,7 @@ export default function Home() {
   let r = useRef();
 
   const [selectedFiles, setSelectedFiles] = useState({});
-  const [setData1, data] = useState({});
+  const [setData1, data] = useState();
   const [showProcessedFiles, setShowProcessedFiles] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
