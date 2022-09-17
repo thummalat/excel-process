@@ -34,6 +34,7 @@ export default function Home() {
     event.preventDefault();
     axios.get('/api/down').then((d) => {
       let f ={data1:d.data}
+      console.log(f);
       setData(f);
     })
   }
