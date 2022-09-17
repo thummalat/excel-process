@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useExcelDownloder } from 'react-xls';
 
 export default function Home() {
-  const { ExcelDownloder, Type } = useExcelDownloder();
   let r = useRef();
+  const { ExcelDownloder, Type } = useExcelDownloder();
 
   const [selectedFiles, setSelectedFiles] = useState({});
   const [setFinalData, finalData] = useState('');
@@ -18,7 +18,8 @@ export default function Home() {
     setSelectedFiles(event.target.files);
   }
   const down = async (event) => {
-    const f = await axios.get('/api/down')
+    event.preventDefault();
+    const f = await axios.get('/api/down');
     console.log(f.data.data);
     setFinalData('sdad');
   }
