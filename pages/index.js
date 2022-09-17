@@ -7,7 +7,7 @@ export default function Home() {
   let r = useRef();
 
   const [selectedFiles, setSelectedFiles] = useState({});
-  const [finalData, setFinalData] = useState();
+  const [finalData, setFinalData] = useState(undefined);
   const [showProcessedFiles, setShowProcessedFiles] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -15,15 +15,16 @@ export default function Home() {
   const handleFileSelecrtionChange = (event) => {
     setShowProcessedFiles(false);
     setShowResults(false);
+    setFinalData(undefined);
     setSelectedFiles(event.target.files);
   }
-  const down = (event) => {
-    event.preventDefault();
-    axios.get('/api/down').then((d) => {
-      let f = { data1: d.data.data }
-      setFinalData(f);
-    })
-  }
+  // const down = (event) => {
+  //   event.preventDefault();
+  //   axios.get('/api/down').then((d) => {
+  //     let f = { data1: d.data.data }
+  //     setFinalData(f);
+  //   })
+  // }
   const processFiles = (event) => {
     event.preventDefault();
     setIsProcessing(true);
@@ -32,6 +33,8 @@ export default function Home() {
       setIsProcessing(false);
       setSelectedFiles({});
       setShowResults(true);
+      let f = { Sheet1: d.data.data }
+      setFinalData(f);
     });
   }
   const uploadFiles = (event) => {
@@ -77,18 +80,19 @@ export default function Home() {
           </div>
           {showResults ? <div className='mt-8 p-4 bg-sky-50 tracking-wide'>
             <p className='text-l font-bold mb-4'>Processed results:</p>
-            <a className='underline underline-offset-4 text-blue-500 pl-4' href="/tmp/TSS_MOD.xlsx">Click here</a> to download processed file.
-            <button onClick={down}> Download</button>
+            {/* <a className='underline underline-offset-4 text-blue-500 pl-4' href="/tmp/TSS_MOD.xlsx">Click here</a> to download processed file.
+            <button onClick={down}> Download</button> */}
+            {finalData ?
+              <ExcelDownloder
+                className="mt-6 bg-blue-300 border border-solid"
+                data={finalData}
+                filename={'book'}
+                type={Type.Button}>
+                Download the Spreadsheet
+              </ExcelDownloder> : ''}
           </div> : ''}
         </form>
-        {finalData ?
-          <ExcelDownloder
-            className="mt-6 bg-blue-300 border border-solid"
-            data={finalData}
-            filename={'book'}
-            type={Type.Button}>
-            Download the Spreadsheet
-          </ExcelDownloder> : ''}
+
       </div>
 
     </>
