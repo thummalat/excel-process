@@ -19,19 +19,21 @@ export default function Home() {
     setSelectedFiles(event.target.files);
   }
   const processFiles = (event) => {
-    if(showResults){
-      alert('you already processed. Please upload new files.')
-    }
     event.preventDefault();
-    setIsProcessing(true);
-    axios.get('/api/process').then((d) => {
-      r.current.value = "";
-      setIsProcessing(false);
-      setSelectedFiles({});
-      setShowResults(true);
-      let f = { Sheet1: d.data.data }
-      setFinalData(f);
-    });
+    if (showResults) {
+      alert('you already processed. Please upload new files.');
+    }
+    else {
+      setIsProcessing(true);
+      axios.get('/api/process').then((d) => {
+        r.current.value = "";
+        setIsProcessing(false);
+        setSelectedFiles({});
+        setShowResults(true);
+        let f = { Sheet1: d.data.data }
+        setFinalData(f);
+      });
+    }
   }
   const uploadFiles = (event) => {
     event.preventDefault();
@@ -76,15 +78,15 @@ export default function Home() {
           </div>
         </form>
         {showResults ? <div className='mt-8 p-4 bg-sky-50 tracking-wide'>
-            {finalData ?
-              <ExcelDownloder
-                className="px-6 py-1 bg-blue-300 border border-solid"
-                data={finalData}
-                filename={'TSS_FINAL'}
-                type={Type.Button}>
-                Download Results
-              </ExcelDownloder> : ''}
-          </div> : ''}
+          {finalData ?
+            <ExcelDownloder
+              className="px-6 py-1 bg-blue-300 border border-solid"
+              data={finalData}
+              filename={'TSS_FINAL'}
+              type={Type.Button}>
+              Download Results
+            </ExcelDownloder> : ''}
+        </div> : ''}
 
       </div>
 
