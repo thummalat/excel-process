@@ -19,6 +19,9 @@ export default function Home() {
     setSelectedFiles(event.target.files);
   }
   const processFiles = (event) => {
+    if(showResults){
+      alert('you already processed. Please upload new files.')
+    }
     event.preventDefault();
     setIsProcessing(true);
     axios.get('/api/process').then((d) => {
@@ -73,14 +76,13 @@ export default function Home() {
           </div>
         </form>
         {showResults ? <div className='mt-8 p-4 bg-sky-50 tracking-wide'>
-            <p className='text-l font-bold mb-4'>Processed results:</p>
             {finalData ?
               <ExcelDownloder
                 className="px-6 py-1 bg-blue-300 border border-solid"
                 data={finalData}
                 filename={'TSS_FINAL'}
                 type={Type.Button}>
-                Download the Spreadsheet
+                Download Results
               </ExcelDownloder> : ''}
           </div> : ''}
 
