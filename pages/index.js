@@ -33,7 +33,7 @@ export default function Home() {
   const down = (event) => {
     event.preventDefault();
     axios.get('/api/down').then((d) => {
-      let f ={data1:d.data}
+      let f ={data1:d.data.data}
       console.log(f);
       setData(f);
     })
