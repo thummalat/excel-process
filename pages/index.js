@@ -20,7 +20,7 @@ export default function Home() {
   const down = (event) => {
     event.preventDefault();
     axios.get('/api/down').then((d) => {
-      let f ={data1:d.data.data}
+      let f = { data1: d.data.data }
       setFinalData(f);
     })
   }
@@ -79,18 +79,16 @@ export default function Home() {
             <p className='text-l font-bold mb-4'>Processed results:</p>
             <a className='underline underline-offset-4 text-blue-500 pl-4' href="/tmp/TSS_MOD.xlsx">Click here</a> to download processed file.
             <button onClick={down}> Download</button>
-           
           </div> : ''}
-
         </form>
 
         <ExcelDownloder
-              data={finalData}
-              filename={'book'}
-              type={Type.Button} // or type={'button'}
-            >
-              Download the Spreadsheet
-            </ExcelDownloder>
+          className="mt-6 bg-blue-300 border border-solid"
+          data={finalData}
+          filename={'book'}
+          type={Type.Button}>
+          Download the Spreadsheet
+        </ExcelDownloder>
       </div>
 
     </>
