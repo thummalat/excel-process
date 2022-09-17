@@ -73,13 +73,11 @@ export default function Home() {
           </div>
           {showResults ? <div className='mt-8 p-4 bg-sky-50 tracking-wide'>
             <p className='text-l font-bold mb-4'>Processed results:</p>
-            {/* <a className='underline underline-offset-4 text-blue-500 pl-4' href="/tmp/TSS_MOD.xlsx">Click here</a> to download processed file.
-            <button onClick={down}> Download</button> */}
             {finalData ?
               <ExcelDownloder
                 className="px-6 py-1 bg-blue-300 border border-solid"
                 data={finalData}
-                filename={'book'}
+                filename={'TSS_FINAL'}
                 type={Type.Button}>
                 Download the Spreadsheet
               </ExcelDownloder> : ''}
