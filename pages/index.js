@@ -71,7 +71,8 @@ export default function Home() {
           <div className='flex justify-end mt-8'>
             {showProcessedFiles ? <button onClick={processFiles} className='ml-4 tracking-wide border-solid border bg-sky-50 px-6 py-1 mt-3 hover:bg-sky-100 border-sky-500' type='submit'>{isProcessing ? 'Processing..' : 'Process files'}</button> : <button onClick={uploadFiles} className='tracking-wide border-solid border text-white bg-sky-500 px-6 py-1 mt-3 hover:bg-sky-600 border-sky-500' type='submit'>{isUploading ? 'Uploading...' : 'Upload files'}</button>}
           </div>
-          {showResults ? <div className='mt-8 p-4 bg-sky-50 tracking-wide'>
+        </form>
+        {showResults ? <div className='mt-8 p-4 bg-sky-50 tracking-wide'>
             <p className='text-l font-bold mb-4'>Processed results:</p>
             {finalData ?
               <ExcelDownloder
@@ -82,7 +83,6 @@ export default function Home() {
                 Download the Spreadsheet
               </ExcelDownloder> : ''}
           </div> : ''}
-        </form>
 
       </div>
 
