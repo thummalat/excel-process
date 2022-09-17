@@ -17,14 +17,16 @@ export default function Home() {
     setShowResults(false);
     setSelectedFiles(event.target.files);
   }
-  const down = (event) => {
+  const down = async (event) => {
     event.preventDefault();
-    axios.get('/api/down').then((d) => {
-      let f ={data1:d.data.data}
-      let ff = {data1:[{name:'thanuz'}]}
-      console.log(f);
+    const f = await axios.get('/api/down')
+    console.log(f.data.data);
+    // .then((d) => {
+    //   let f ={data1:d.data.data}
+    //   let ff = {data1:[{name:'thanuz'}]}
+    //   console.log(f);
       setFinalData('sdad');
-    })
+    // })
   }
   const processFiles = (event) => {
     event.preventDefault();
