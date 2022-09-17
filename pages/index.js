@@ -18,13 +18,6 @@ export default function Home() {
     setFinalData(undefined);
     setSelectedFiles(event.target.files);
   }
-  // const down = (event) => {
-  //   event.preventDefault();
-  //   axios.get('/api/down').then((d) => {
-  //     let f = { data1: d.data.data }
-  //     setFinalData(f);
-  //   })
-  // }
   const processFiles = (event) => {
     event.preventDefault();
     setIsProcessing(true);
@@ -38,8 +31,8 @@ export default function Home() {
     });
   }
   const uploadFiles = (event) => {
-    setShowResults(false);
     event.preventDefault();
+    setShowResults(false);
     if (Object.keys(selectedFiles).length === 0) {
       alert('please select files to upload');
     }
@@ -84,7 +77,7 @@ export default function Home() {
             <button onClick={down}> Download</button> */}
             {finalData ?
               <ExcelDownloder
-                className="mt-6 bg-blue-300 border border-solid"
+                className="px-6 py-1 bg-blue-300 border border-solid"
                 data={finalData}
                 filename={'book'}
                 type={Type.Button}>
