@@ -21,7 +21,7 @@ export default function Home() {
     event.preventDefault();
     axios.get('/api/down').then((d) => {
       let f ={data1:d.data.data}
-      setData1(f);
+      setData1({...f});
     })
   }
   const processFiles = (event) => {
