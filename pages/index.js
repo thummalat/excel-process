@@ -7,7 +7,7 @@ export default function Home() {
   let r = useRef();
 
   const [selectedFiles, setSelectedFiles] = useState({});
-  const [setFinalData,finalData] = useState('');
+  const [setFinalData, finalData] = useState('');
   const [showProcessedFiles, setShowProcessedFiles] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -18,15 +18,9 @@ export default function Home() {
     setSelectedFiles(event.target.files);
   }
   const down = async (event) => {
-    event.preventDefault();
     const f = await axios.get('/api/down')
     console.log(f.data.data);
-    // .then((d) => {
-    //   let f ={data1:d.data.data}
-    //   let ff = {data1:[{name:'thanuz'}]}
-    //   console.log(f);
-      setFinalData('sdad');
-    // })
+    setFinalData('sdad');
   }
   const processFiles = (event) => {
     event.preventDefault();
@@ -83,18 +77,18 @@ export default function Home() {
             <p className='text-l font-bold mb-4'>Processed results:</p>
             <a className='underline underline-offset-4 text-blue-500 pl-4' href="/tmp/TSS_MOD.xlsx">Click here</a> to download processed file.
             <button onClick={down}> Download</button>
-           
+
           </div> : ''}
 
         </form>
 
         <ExcelDownloder
-              data={finalData}
-              filename={'book'}
-              type={Type.Button} // or type={'button'}
-            >
-              Download the Spreadsheet
-            </ExcelDownloder>
+          data={finalData}
+          filename={'book'}
+          type={Type.Button} // or type={'button'}
+        >
+          Download the Spreadsheet
+        </ExcelDownloder>
       </div>
 
     </>
