@@ -7,7 +7,7 @@ export default function Home() {
   let r = useRef();
 
   const [selectedFiles, setSelectedFiles] = useState({});
-  const [setData, data] = useState({});
+  const [setData1, data] = useState({});
   const [showProcessedFiles, setShowProcessedFiles] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -21,7 +21,7 @@ export default function Home() {
     event.preventDefault();
     axios.get('/api/down').then((d) => {
       let f ={data1:d.data.data}
-      setData(f);
+      setData1(f);
     })
   }
   const processFiles = (event) => {
