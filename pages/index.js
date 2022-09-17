@@ -98,6 +98,7 @@ export default function Home() {
           </div> : ''}
 
         </form>
+        {data|JSON}
 
         <ExcelDownloder
               data={data1}
