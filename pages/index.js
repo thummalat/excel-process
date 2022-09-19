@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useExcelDownloder } from 'react-xls';
 import { ToastContainer, toast } from 'react-toastify';
 import * as XLSX from 'xlsx';
-import { Upload } from 'react-feather';
-import { Download } from 'react-feather';
+import { Upload, AlertTriangle, Download } from 'react-feather';
+
 
 
 export default function Home() {
@@ -26,7 +26,7 @@ export default function Home() {
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
       XLSX.writeFile(wb, 'Final.xlsx');
     }
-  }, [finalData])
+  }, [finalData]);
 
   const handleFileSelecrtionChange = (event) => {
     setShowProcessedFiles(false);
@@ -81,9 +81,15 @@ export default function Home() {
 
   return (
     <>
-      <div className='container mx-auto pt-8 max-w-2xl h-screen'>
-        <p className=' text-red-600 mb-4 leading-loose tracking-normal'>This is to add <span className='font-bold'>NFA Id</span> and <span className='font-bold'>CRD Id</span> to <span className='font-bold'>TSS.xlsx</span>. Uploading files should be named as <span className='font-bold'>TSS.xlsx</span>,  <span className='font-bold'>NFA.xlsx</span> and <span className='font-bold'>FINRA.xlsx</span>  </p>
-        <form className='bg-slate-100 p-4 pt-6 shadow-xl border rounded border-slate-300 border-solid'>
+      <div className='container mx-auto pt-8 max-w-3xl h-screen'>
+        <div className='text-white text-lg p-6 mb-4 leading-loose tracking-wider flex items-start bg-red-400'><AlertTriangle className='mr-2 pt-2' />
+          <p>
+            This is to add <span className='font-bold'>NFA Id</span> and <span className='font-bold'>CRD Id</span> to <span className='font-bold'>TSS.xlsx</span>.
+            Uploading files should be named as <span className='font-bold'>TSS.xlsx</span>,
+            <span className='font-bold'>NFA.xlsx</span> and <span className='font-bold'>FINRA.xlsx</span>
+          </p>
+        </div>
+        <form className='bg-slate-100 p-10 shadow-xl border rounded border-slate-300 border-solid'>
           <label htmlFor="files" className='pr-4 font-bold tracking-wide'>Select files:</label>
           <input type='file' accept=".xlsx" ref={r} className='font-bold' multiple name="files" onChange={handleFileSelecrtionChange} id="files"></input>
           {selectedFiles.length > 0 ? <ul className='mt-8 mb-8 p-4 bg-slate-200'>
@@ -99,7 +105,7 @@ export default function Home() {
                 'Process files and Download'}</button> :
               <button onClick={uploadFiles} className='tracking-wide border-solid border text-white bg-slate-700 px-6 py-2 mt-3 
               hover:bg-slate-600 border-slate-500 flex align-middle' type='submit'><Upload className='mr-2' />{isUploading ? <>Uploading...</> :
-                'Upload files'}</button>}
+                  'Upload files'}</button>}
           </div>
         </form>
         <ToastContainer />
