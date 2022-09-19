@@ -92,7 +92,14 @@ export default function Home() {
           </ul> : ''}
 
           <div className='flex justify-end mt-8'>
-            {showProcessedFiles ? <button onClick={processFiles} className='ml-4 tracking-wide border-solid border bg-slate-100 px-6 py-2 mt-3 hover:bg-slate-200 border-slate-500 flex align-middle' type='submit'>{isProcessing ? 'Processing..' : <><Download className='mr-2'/>Process files and Download</>}</button> : <button onClick={uploadFiles} className='tracking-wide border-solid border text-white bg-slate-700 px-6 py-2 mt-3 hover:bg-slate-600 border-slate-500 flex align-middle' type='submit'>{isUploading ? <>'Uploading...'</> : <><Upload  className='mr-2'/>Upload files</>}</button>}
+            {showProcessedFiles ? <button onClick={processFiles} className='ml-4 
+            tracking-wide border-solid border bg-slate-100 px-6 py-2 mt-3 
+            hover:bg-slate-200 border-slate-500 flex align-middle' type='submit'>
+              <Download className='mr-2' />{isProcessing ? 'Processing..' :
+                'Process files and Download'}</button> :
+              <button onClick={uploadFiles} className='tracking-wide border-solid border text-white bg-slate-700 px-6 py-2 mt-3 
+              hover:bg-slate-600 border-slate-500 flex align-middle' type='submit'><Upload className='mr-2' />{isUploading ? <>Uploading...</> :
+                'Upload files'}</button>}
           </div>
         </form>
         <ToastContainer />
