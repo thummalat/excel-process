@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import axios from 'axios';
 import { useExcelDownloder } from 'react-xls';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Home() {
   const { ExcelDownloder, Type } = useExcelDownloder();
@@ -57,6 +58,7 @@ export default function Home() {
       }).then(() => {
         setIsUploading(false);
         setShowProcessedFiles(true);
+        toast.info("Files have been uploaded!", {hideProgressBar: true});
       })
     }
   }
@@ -87,6 +89,8 @@ export default function Home() {
               Download Results
             </ExcelDownloder> : ''}
         </div> : ''}
+
+        <ToastContainer />
 
       </div>
 
