@@ -22,7 +22,7 @@ export default function Home() {
   const processFiles = (event) => {
     event.preventDefault();
     if (showResults) {
-      toast.error('you already processed. Please upload new files.');
+      toast.error('Your files have been processed. Please upload new files.');
     }
     else {
       setIsProcessing(true);
@@ -66,7 +66,7 @@ export default function Home() {
 
   return (
     <>
-      <div className='container mx-auto mt-8 flex justify-center flex-col max-w-2xl'>
+      <div className='container mx-auto pt-8 max-w-2xl h-screen'>
         <p className=' text-red-600 mb-4 leading-loose tracking-normal'>This is to add <span className='font-bold'>NFA Id</span> and <span className='font-bold'>CRD Id</span> to <span className='font-bold'>TSS.xlsx</span>. Uploading files should be named as <span className='font-bold'>TSS.xlsx</span>,  <span className='font-bold'>NFA.xlsx</span> and <span className='font-bold'>FINRA.xlsx</span>  </p>
         <form className='bg-slate-100 p-4 pt-6 shadow-xl border rounded border-slate-300 border-solid'>
           <label htmlFor="files" className='pr-4 font-bold tracking-wide'>Select files:</label>
@@ -77,7 +77,7 @@ export default function Home() {
           </ul> : ''}
 
           <div className='flex justify-end mt-8'>
-            {showProcessedFiles ? <button onClick={processFiles} className='ml-4 tracking-wide border-solid border bg-sky-50 px-6 py-1 mt-3 hover:bg-sky-100 border-sky-500' type='submit'>{isProcessing ? 'Processing..' : 'Process files'}</button> : <button onClick={uploadFiles} className='tracking-wide border-solid border text-white bg-sky-500 px-6 py-1 mt-3 hover:bg-sky-600 border-sky-500' type='submit'>{isUploading ? 'Uploading...' : 'Upload files'}</button>}
+            {showProcessedFiles ? <button onClick={processFiles} className='ml-4 tracking-wide border-solid border bg-slate-100 px-6 py-1 mt-3 hover:bg-slate-200 border-slate-500' type='submit'>{isProcessing ? 'Processing..' : 'Process files'}</button> : <button onClick={uploadFiles} className='tracking-wide border-solid border text-white bg-slate-700 px-6 py-1 mt-3 hover:bg-slate-600 border-slate-500' type='submit'>{isUploading ? 'Uploading...' : 'Upload files'}</button>}
           </div>
         </form>
         {showResults ? <div className='mt-8 p-4 bg-slate-100 tracking-wide flex justify-center'>
