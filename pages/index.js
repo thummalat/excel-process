@@ -1,22 +1,33 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import { useExcelDownloder } from 'react-xls';
 import { ToastContainer, toast } from 'react-toastify';
-
+import * as XLSX from 'xlsx';
 export default function Home() {
   const { ExcelDownloder, Type } = useExcelDownloder();
   let r = useRef();
 
   const [selectedFiles, setSelectedFiles] = useState({});
-  const [finalData, setFinalData] = useState(undefined);
+
+  const [finalData, setFinalData] = useState([]);
+
   const [showProcessedFiles, setShowProcessedFiles] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  useEffect(() => {
+    if (finalData.length > 0) {
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.json_to_sheet(finalData);
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      XLSX.writeFile(wb, 'Final.xlsx');
+    }
+  }, [finalData])
+
   const handleFileSelecrtionChange = (event) => {
     setShowProcessedFiles(false);
     setShowResults(false);
-    setFinalData(undefined);
+    setFinalData([]);
     setSelectedFiles(event.target.files);
   }
   const processFiles = (event) => {
@@ -31,7 +42,7 @@ export default function Home() {
         setIsProcessing(false);
         setSelectedFiles({});
         setShowResults(true);
-        let f = { Sheet1: d.data.data }
+        let f = d.data.data;
         toast.info("Files have been Processed!");
         setFinalData(f);
       });
@@ -77,24 +88,11 @@ export default function Home() {
           </ul> : ''}
 
           <div className='flex justify-end mt-8'>
-            {showProcessedFiles ? <button onClick={processFiles} className='ml-4 tracking-wide border-solid border bg-slate-100 px-6 py-1 mt-3 hover:bg-slate-200 border-slate-500' type='submit'>{isProcessing ? 'Processing..' : 'Process files'}</button> : <button onClick={uploadFiles} className='tracking-wide border-solid border text-white bg-slate-700 px-6 py-1 mt-3 hover:bg-slate-600 border-slate-500' type='submit'>{isUploading ? 'Uploading...' : 'Upload files'}</button>}
+            {showProcessedFiles ? <button onClick={processFiles} className='ml-4 tracking-wide border-solid border bg-slate-100 px-6 py-1 mt-3 hover:bg-slate-200 border-slate-500' type='submit'>{isProcessing ? 'Processing..' : 'Process files and Download'}</button> : <button onClick={uploadFiles} className='tracking-wide border-solid border text-white bg-slate-700 px-6 py-1 mt-3 hover:bg-slate-600 border-slate-500' type='submit'>{isUploading ? 'Uploading...' : 'Upload files'}</button>}
           </div>
         </form>
-        {showResults ? <div className='mt-8 p-4 bg-slate-100 tracking-wide flex justify-center'>
-          {finalData ?
-            <ExcelDownloder
-              className="px-6 py-1 bg-slate-700 text-white border border-solid"
-              data={finalData}
-              filename={'TSS_FINAL'}
-              type={Type.Button}>
-              Download Results
-            </ExcelDownloder> : ''}
-        </div> : ''}
-
         <ToastContainer />
-
       </div>
-
     </>
   )
 }
