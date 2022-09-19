@@ -22,7 +22,7 @@ export default function Home() {
   const processFiles = (event) => {
     event.preventDefault();
     if (showResults) {
-      alert('you already processed. Please upload new files.');
+      toast.error('you already processed. Please upload new files.',{hideProgressBar: true});
     }
     else {
       setIsProcessing(true);
@@ -32,6 +32,7 @@ export default function Home() {
         setSelectedFiles({});
         setShowResults(true);
         let f = { Sheet1: d.data.data }
+        toast.info("Files have been Processed!", {hideProgressBar: true});
         setFinalData(f);
       });
     }
@@ -40,10 +41,10 @@ export default function Home() {
     event.preventDefault();
     setShowResults(false);
     if (Object.keys(selectedFiles).length === 0) {
-      alert('please select files to upload');
+      toast.error('please select files to upload.',{hideProgressBar: true});
     }
     else if (isUploading) {
-      alert('Files are uploading Please wait.');
+      toast.error('Files are uploading Please wait.',{hideProgressBar: true});
     }
     else {
       setIsUploading(true);
