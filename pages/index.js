@@ -64,7 +64,7 @@ export default function Home() {
   return (
     <>
       <div className='container mx-auto mt-8 flex justify-center flex-col max-w-2xl'>
-        <p className=' text-red-400 mb-4 leading-loose tracking-normal'>This is to add <span className='font-bold'>NFA Id</span> and <span className='font-bold'>CRD Id</span> to <span className='font-bold'>TSS.xlsx</span>. Uploading files should be named as <span className='font-bold'>TSS.xlsx</span>,  <span className='font-bold'>NFA.xlsx</span> and <span className='font-bold'>FINRA.xlsx</span>  </p>
+        <p className=' text-red-600 mb-4 leading-loose tracking-normal'>This is to add <span className='font-bold'>NFA Id</span> and <span className='font-bold'>CRD Id</span> to <span className='font-bold'>TSS.xlsx</span>. Uploading files should be named as <span className='font-bold'>TSS.xlsx</span>,  <span className='font-bold'>NFA.xlsx</span> and <span className='font-bold'>FINRA.xlsx</span>  </p>
         <form className='bg-slate-100 p-4 pt-6 shadow-xl border rounded border-slate-300 border-solid'>
           <label htmlFor="files" className='pr-4 font-bold tracking-wide'>Select files:</label>
           <input type='file' accept=".xlsx" ref={r} className='font-bold' multiple name="files" onChange={handleFileSelecrtionChange} id="files"></input>
@@ -77,10 +77,10 @@ export default function Home() {
             {showProcessedFiles ? <button onClick={processFiles} className='ml-4 tracking-wide border-solid border bg-sky-50 px-6 py-1 mt-3 hover:bg-sky-100 border-sky-500' type='submit'>{isProcessing ? 'Processing..' : 'Process files'}</button> : <button onClick={uploadFiles} className='tracking-wide border-solid border text-white bg-sky-500 px-6 py-1 mt-3 hover:bg-sky-600 border-sky-500' type='submit'>{isUploading ? 'Uploading...' : 'Upload files'}</button>}
           </div>
         </form>
-        {showResults ? <div className='mt-8 p-4 bg-sky-50 tracking-wide'>
+        {showResults ? <div className='mt-8 p-4 bg-slate-100 tracking-wide flex justify-center'>
           {finalData ?
             <ExcelDownloder
-              className="px-6 py-1 bg-blue-300 border border-solid"
+              className="px-6 py-1 bg-slate-700 text-white border border-solid"
               data={finalData}
               filename={'TSS_FINAL'}
               type={Type.Button}>
