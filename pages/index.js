@@ -89,8 +89,9 @@ export default function Home() {
           <p>
             This is to add <span className='font-bold'>NFA Id</span> and <span className='font-bold'>CRD Id</span> to <span className='font-bold'>TSS.xlsx</span>.
             Uploading files should be named as <span className='font-bold'>TSS.xlsx</span>,
-            <span className='font-bold'>NFA.xlsx</span> and <span className='font-bold'>FINRA.xlsx</span>
+            <span className='font-bold'>NFA.xlsx</span> and <span className='font-bold'>FINRA.xlsx</span>, Please Make sure all files are closed before uploading.
           </p>
+          
         </div>
         <form className='bg-slate-100 p-10 shadow-xl border rounded border-slate-300 border-solid'>
           <label htmlFor="files" className='pr-4 font-bold tracking-wide'>Select files:</label>
