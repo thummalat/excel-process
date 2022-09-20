@@ -13,17 +13,19 @@ export default function Home() {
 
   const [selectedFiles, setSelectedFiles] = useState({});
 
-  const [finalData, setFinalData] = useState([]);
+  const [finalData, setFinalData] = useState({});
 
   const [showProcessedFiles, setShowProcessedFiles] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   useEffect(() => {
-    if (finalData.length > 0) {
+    if (Object.keys(finalData).length > 0) {
       const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.json_to_sheet(finalData);
+      const ws = XLSX.utils.json_to_sheet(finalData.tssData);
+      const ws1 = XLSX.utils.json_to_sheet(finalData.noNFARecords);
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+      XLSX.utils.book_append_sheet(wb, ws1, 'Sheet2');
       XLSX.writeFile(wb, 'Final.xlsx');
     }
   }, [finalData]);
@@ -31,7 +33,7 @@ export default function Home() {
   const handleFileSelecrtionChange = (event) => {
     setShowProcessedFiles(false);
     setShowResults(false);
-    setFinalData([]);
+    setFinalData({});
     setSelectedFiles(event.target.files);
   }
   const processFiles = (event) => {
@@ -47,8 +49,9 @@ export default function Home() {
         setSelectedFiles({});
         setShowResults(true);
         let f = d.data.data;
+        let f1 = d.data.noNFARecords;
         toast.info("Files have been Processed!");
-        setFinalData(f);
+        setFinalData({tssData:f, noNFARecords:f1});
       });
     }
   }

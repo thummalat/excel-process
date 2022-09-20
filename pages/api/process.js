@@ -1,5 +1,6 @@
 import * as reader from 'xlsx';
 import nc from 'next-connect';
+import _ from 'lodash';
 
 const mime = require('mime');
 
@@ -38,16 +39,21 @@ handler.get((req, res) => {
     const modTSSData = TSSData.map(data => ({ ...data, ['Full Name']: `${data['Last Name']}, ${data['First Name']}` }));
 
     const fin = modTSSData.map(d => ({ ...d, ['NFA ID']: NFADataMappings[d['Full Name'].toLowerCase().trim()] || '', ['CRD ID']: FINRADataMappings[d['Full Name'].toLowerCase().trim()] || '' }));
+    const InvertedNFADataMappings = _.invert(NFADataMappings);
 
+    const noRecordNFAs = _.difference(NFAData.map(n => n['NFA ID']), fin.map(f => f['NFA ID']));
+
+    const noNFARecords = noRecordNFAs.map(d=>({'Full Name':InvertedNFADataMappings[d], 'NAF ID':d}));
+    
     const ws = reader.utils.json_to_sheet(fin);
     reader.utils.book_append_sheet(workBook, ws, 'ModSheet');
     reader.writeFile(workBook, '/tmp/TSS_MOD.xlsx');
     const workBook_mod = reader.readFile('/tmp/TSS_MOD.xlsx');
     let ModTSSData = readDataFromSheet(workBook_mod, 'ModSheet');
-    res.json({ data: ModTSSData});
+    res.json({ data: ModTSSData, noNFARecords });
 });
 
-function readDataFromSheet(excelName,sheetName) {
+function readDataFromSheet(excelName, sheetName) {
     let data = [];
     reader.utils.sheet_to_json(excelName.Sheets[sheetName]).forEach(res => data.push(res));
     return data;
