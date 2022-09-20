@@ -24,8 +24,8 @@ export default function Home() {
       const wb = XLSX.utils.book_new();
       const ws = XLSX.utils.json_to_sheet(finalData.tssData);
       const ws1 = XLSX.utils.json_to_sheet(finalData.noNFARecords);
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-      XLSX.utils.book_append_sheet(wb, ws1, 'Sheet2');
+      XLSX.utils.book_append_sheet(wb, ws, 'Full data');
+      XLSX.utils.book_append_sheet(wb, ws1, 'NFA name miss match');
       XLSX.writeFile(wb, 'Final.xlsx');
     }
   }, [finalData]);

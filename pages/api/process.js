@@ -39,13 +39,17 @@ handler.get((req, res) => {
     const modTSSData = TSSData.map(data => ({ ...data, ['Full Name']: `${data['Last Name']}, ${data['First Name']}` }));
 
     const fin = modTSSData.map(d => ({ ...d, ['NFA ID']: NFADataMappings[d['Full Name'].toLowerCase().trim()] || '', ['CRD ID']: FINRADataMappings[d['Full Name'].toLowerCase().trim()] || '' }));
+    const fin1 = fin.map(d => {
+        const employeeName = `${d['Full Name']}(${d['CRD ID']})`;
+        return{...d, ['Employee Name']:employeeName};
+    })
     const InvertedNFADataMappings = _.invert(NFADataMappings);
 
-    const noRecordNFAs = _.difference(NFAData.map(n => n['NFA ID']), fin.map(f => f['NFA ID']));
+    const noRecordNFAs = _.difference(NFAData.map(n => n['NFA ID']), fin1.map(f => f['NFA ID']));
 
     const noNFARecords = noRecordNFAs.map(d=>({'Full Name':InvertedNFADataMappings[d], 'NAF ID':d}));
     
-    const ws = reader.utils.json_to_sheet(fin);
+    const ws = reader.utils.json_to_sheet(fin1);
     reader.utils.book_append_sheet(workBook, ws, 'ModSheet');
     reader.writeFile(workBook, '/tmp/TSS_MOD.xlsx');
     const workBook_mod = reader.readFile('/tmp/TSS_MOD.xlsx');
