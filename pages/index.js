@@ -4,6 +4,7 @@ import { useExcelDownloder } from 'react-xls';
 import { ToastContainer, toast } from 'react-toastify';
 import * as XLSX from 'xlsx';
 import { Upload, AlertTriangle, Download } from 'react-feather';
+import * as  _ from 'lodash';
 
 
 
@@ -20,7 +21,7 @@ export default function Home() {
   const [isUploading, setIsUploading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   useEffect(() => {
-    if (Object.keys(finalData).length > 0) {
+    if (_.keys(finalData).length > 0) {
       const wb = XLSX.utils.book_new();
       const ws = XLSX.utils.json_to_sheet(finalData.tssData);
       const ws1 = XLSX.utils.json_to_sheet(finalData.noNFARecords);
@@ -51,18 +52,27 @@ export default function Home() {
         let f = d.data.data;
         let f1 = d.data.noNFARecords;
         toast.info("Files have been Processed!");
-        setFinalData({tssData:f, noNFARecords:f1});
+        setFinalData({ tssData: f, noNFARecords: f1 });
       });
     }
   }
   const uploadFiles = (event) => {
     event.preventDefault();
     setShowResults(false);
-    if (Object.keys(selectedFiles).length === 0) {
+    const fileNames = _.map(_.values(selectedFiles), file => file.name);
+    const areFilenamesCorrect = _.intersection(fileNames, ['TSS.xlsx', 'NFA.xlsx', 'FINRA.xlsx']).length == 3;
+
+    if (_.keys(selectedFiles).length === 0) {
       toast.error('please select files to upload.');
     }
     else if (isUploading) {
       toast.error('Files are uploading Please wait.');
+    }
+    else if (_.keys(selectedFiles).length !== 3) {
+      toast.error(`You are trying to upload ${_.keys(selectedFiles).length} files, system allows you exactly 3 files to be uploaded (with .xlsx extension).`)
+    }
+    else if (!areFilenamesCorrect) {
+      toast.error(`Please upload files with 'TSS.xlsx', 'NFA.xlsx' and 'FINRA.xlsx' names.`)
     }
     else {
       setIsUploading(true);
@@ -91,7 +101,7 @@ export default function Home() {
             Uploading files should be named as <span className='font-bold'>TSS.xlsx</span>,
             <span className='font-bold'>NFA.xlsx</span> and <span className='font-bold'>FINRA.xlsx</span>, Please Make sure all files are closed before uploading.
           </p>
-          
+
         </div>
         <form className='bg-slate-100 p-10 shadow-xl border rounded border-slate-300 border-solid'>
           <label htmlFor="files" className='pr-4 font-bold tracking-wide'>Select files:</label>
