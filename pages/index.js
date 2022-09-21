@@ -95,7 +95,7 @@ export default function Home() {
   return (
     <>
       <div className='container mx-auto pt-8 max-w-3xl h-screen'>
-        <div className='text-white text-lg p-6 mb-4 leading-loose tracking-wider flex items-start bg-red-400'><AlertTriangle className='mr-2 pt-2' />
+        <div className='text-white text-lg p-6 mb-4 leading-loose tracking-wider flex items-center bg-red-400'><AlertTriangle className='mr-6 h-14 w-24 font-bold' />
           <p>
             This is to add <span className='font-bold'>NFA Id</span> and <span className='font-bold'>CRD Id</span> to <span className='font-bold'>TSS.xlsx</span>.
             Uploading files should be named as <span className='font-bold'>TSS.xlsx</span>,
