@@ -85,9 +85,12 @@ export default function Home() {
           'Content-Type': 'multipart/form-data',
         }
       }).then(() => {
-        setIsUploading(false);
         setShowProcessedFiles(true);
         toast.info("Files have been uploaded!");
+      }).catch(({response})=>{
+        toast.error(response.data.err);
+      }).finally(()=>{
+        setIsUploading(false);
       })
     }
   }

@@ -2,9 +2,6 @@ import * as reader from 'xlsx';
 import nc from 'next-connect';
 import _ from 'lodash';
 
-const mime = require('mime');
-
-
 const handler = nc({
     onError: (err, req, res, next) => {
         console.error(err.stack);
