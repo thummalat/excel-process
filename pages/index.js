@@ -6,8 +6,6 @@ import * as XLSX from 'xlsx';
 import { Upload, AlertTriangle, Download } from 'react-feather';
 import * as  _ from 'lodash';
 
-
-
 export default function Home() {
   const { ExcelDownloder, Type } = useExcelDownloder();
   let r = useRef();
@@ -40,7 +38,7 @@ export default function Home() {
   const processFiles = (event) => {
     event.preventDefault();
     if (showResults) {
-      toast.error('Your files have been processed. Please upload new files.');
+      showNotification('error', `Your files have been processed. Please upload new files.`);
     }
     else {
       setIsProcessing(true);
@@ -51,7 +49,7 @@ export default function Home() {
         setShowResults(true);
         let f = d.data.data;
         let f1 = d.data.noNFARecords;
-        toast.info("Files have been Processed!");
+        showNotification('info', `Files have been Processed!`);
         setFinalData({ tssData: f, noNFARecords: f1 });
       });
     }
@@ -63,16 +61,16 @@ export default function Home() {
     const areFilenamesCorrect = _.intersection(fileNames, ['TSS.xlsx', 'NFA.xlsx', 'FINRA.xlsx']).length == 3;
 
     if (_.keys(selectedFiles).length === 0) {
-      toast.error('please select files to upload.');
+      showNotification('error', 'please select files to upload.');
     }
     else if (isUploading) {
-      toast.error('Files are uploading Please wait.');
+      showNotification('error', 'Files are uploading Please wait.');
     }
     else if (_.keys(selectedFiles).length !== 3) {
-      toast.error(`You are trying to upload ${_.keys(selectedFiles).length} files, system allows you exactly 3 files to be uploaded (with .xlsx extension).`)
+      showNotification('error', `You are trying to upload ${_.keys(selectedFiles).length} files, system allows you exactly 3 files to be uploaded (with .xlsx extension).`);
     }
     else if (!areFilenamesCorrect) {
-      toast.error(`Please upload files with 'TSS.xlsx', 'NFA.xlsx' and 'FINRA.xlsx' names.`)
+      showNotification('error', `Please upload files with 'TSS.xlsx', 'NFA.xlsx' and 'FINRA.xlsx' names.`);
     }
     else {
       setIsUploading(true);
@@ -86,13 +84,17 @@ export default function Home() {
         }
       }).then(() => {
         setShowProcessedFiles(true);
-        toast.info("Files have been uploaded!");
-      }).catch(({response})=>{
-        toast.error(response.data.err);
-      }).finally(()=>{
+        showNotification('info', 'Files have been uploaded!')
+      }).catch(({ response }) => {
+        showNotification('error', response.data.err);
+      }).finally(() => {
         setIsUploading(false);
       })
     }
+  }
+
+  const showNotification = (type, message) => {
+    toast[type](message);
   }
 
   return (
