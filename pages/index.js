@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
-import { useExcelDownloder } from 'react-xls';
 import { ToastContainer, toast } from 'react-toastify';
 import * as XLSX from 'xlsx';
 import { Upload, AlertTriangle, Download } from 'react-feather';
 import * as  _ from 'lodash';
 
 export default function Home() {
-  const { ExcelDownloder, Type } = useExcelDownloder();
   let r = useRef();
 
   const [selectedFiles, setSelectedFiles] = useState({});
