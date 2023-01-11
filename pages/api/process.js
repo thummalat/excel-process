@@ -29,7 +29,7 @@ handler.get((req, res) => {
     const modFINRAData = updateNamesForFINRASheet(FINRAData);
     const modFINRAPData = FINRAPData.map(data=>{
         const fullName = `${data['Last Name']}, ${data['First Name']}`;
-        return{...data, ['Full Name']:fullName}
+        return{...data, ['Full Name']:fullName.toLowerCase()}
     });
     let FINRADataMappings = {};
     modFINRAData.forEach(d => {
