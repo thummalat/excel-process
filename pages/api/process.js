@@ -33,19 +33,24 @@ handler.get((req, res) => {
         const _firstName = _name.split(', ')[1].split(' ')[0];
         NFADataMappings[`${_lastName}, ${_firstName}`] = d['NFA ID'];
     });
-    const modTSSData = TSSData.map(data => ({ ...data, ['Full Name']: `${data['Last Name']}, ${data['First Name']}` }));
+    
+    const modTSSData = TSSData.map(data => {
+        const fullName = `${data['Last Name']}, ${data['First Name']}`;
+        data['Reports To Name'] = _.toLower(data['Reports To Name']);
+        return { ...data, ['Full Name']: fullName.toLowerCase() };
+    });
 
     const fin = modTSSData.map(d => ({ ...d, ['NFA ID']: NFADataMappings[d['Full Name'].toLowerCase().trim()] || '', ['CRD ID']: FINRADataMappings[d['Full Name'].toLowerCase().trim()] || '' }));
     const fin1 = fin.map(d => {
         const employeeName = `${d['Full Name']}(${d['CRD ID']})`;
-        return{...d, ['Employee Name']:employeeName};
+        return { ...d, ['Employee Name']: employeeName };
     })
     const InvertedNFADataMappings = _.invert(NFADataMappings);
 
     const noRecordNFAs = _.difference(NFAData.map(n => n['NFA ID']), fin1.map(f => f['NFA ID']));
 
-    const noNFARecords = noRecordNFAs.map(d=>({'Full Name':InvertedNFADataMappings[d], 'NAF ID':d}));
-    
+    const noNFARecords = noRecordNFAs.map(d => ({ 'Full Name': InvertedNFADataMappings[d], 'NAF ID': d }));
+
     const ws = reader.utils.json_to_sheet(fin1);
     reader.utils.book_append_sheet(workBook, ws, 'ModSheet');
     reader.writeFile(workBook, '/tmp/TSS_MOD.xlsx');
