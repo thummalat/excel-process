@@ -15,13 +15,22 @@ handler.get((req, res) => {
     const workBook = reader.readFile('/tmp/TSS.xlsx');
     const workBook_NFA = reader.readFile('/tmp/NFA.xlsx');
     const workBook_FINRA = reader.readFile('/tmp/FINRA.xlsx');
+    const workBook_FINRA_P = reader.readFile('/tmp/FINRA_P.xlsx');
+
     let TSSData = [];
     let NFAData = [];
     let FINRAData = [];
+    let FINRAPData = [];
+
     TSSData = readDataFromSheet(workBook, 'Sheet1');
     NFAData = readDataFromSheet(workBook_NFA, 'Sheet1');
     FINRAData = readDataFromSheet(workBook_FINRA, 'Sheet1');
+    FINRAPData = readDataFromSheet(workBook_FINRA_P, 'Sheet1');
     const modFINRAData = updateNamesForFINRASheet(FINRAData);
+    const modFINRAPData = FINRAPData.map(data=>{
+        const fullName = `${data['Last Name']}, ${data['First Name']}`;
+        return{...data, ['Full Name']:fullName}
+    });
     let FINRADataMappings = {};
     modFINRAData.forEach(d => {
         FINRADataMappings[`${d['Full Name']}`] = d['Individual CRD#'];
@@ -33,7 +42,7 @@ handler.get((req, res) => {
         const _firstName = _name.split(', ')[1].split(' ')[0];
         NFADataMappings[`${_lastName}, ${_firstName}`] = d['NFA ID'];
     });
-    
+
     const modTSSData = TSSData.map(data => {
         const fullName = `${data['Last Name']}, ${data['First Name']}`;
         data['Reports To Name'] = _.toLower(data['Reports To Name']);
@@ -49,14 +58,15 @@ handler.get((req, res) => {
 
     const noRecordNFAs = _.difference(NFAData.map(n => n['NFA ID']), fin1.map(f => f['NFA ID']));
 
-    const noNFARecords = noRecordNFAs.map(d => ({ 'Full Name': InvertedNFADataMappings[d], 'NAF ID': d }));
+    const noNFARecords = noRecordNFAs.map(d => ({ 'Full Name': InvertedNFADataMappings[d], 'NFA ID': d }));
 
     const ws = reader.utils.json_to_sheet(fin1);
     reader.utils.book_append_sheet(workBook, ws, 'ModSheet');
     reader.writeFile(workBook, '/tmp/TSS_MOD.xlsx');
     const workBook_mod = reader.readFile('/tmp/TSS_MOD.xlsx');
     let ModTSSData = readDataFromSheet(workBook_mod, 'ModSheet');
-    res.json({ data: ModTSSData, noNFARecords });
+    res.json({ data: ModTSSData, noNFARecords, modFINRAPData });
+    // res.json({ data: ModTSSData, noNFARecords });
 });
 
 function readDataFromSheet(excelName, sheetName) {

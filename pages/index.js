@@ -23,8 +23,10 @@ export default function Home() {
       const wb = XLSX.utils.book_new();
       const ws = XLSX.utils.json_to_sheet(finalData.tssData);
       const ws1 = XLSX.utils.json_to_sheet(finalData.noNFARecords);
+      const ws2 = XLSX.utils.json_to_sheet(finalData.finraPData);
       XLSX.utils.book_append_sheet(wb, ws, 'Full data');
       XLSX.utils.book_append_sheet(wb, ws1, 'NFA name miss match');
+      XLSX.utils.book_append_sheet(wb, ws2, 'FINRA PRINCIPALS DATA');
       XLSX.writeFile(wb, 'Final.xlsx');
     }
   }, [finalData]);
@@ -49,8 +51,9 @@ export default function Home() {
         setShowResults(true);
         let f = d.data.data;
         let f1 = d.data.noNFARecords;
+        let finraPData = d.data.modFINRAPData;
         showNotification('info', `Files have been Processed!`);
-        setFinalData({ tssData: f, noNFARecords: f1 });
+        setFinalData({ tssData: f, noNFARecords: f1, finraPData });
       });
     }
   }
@@ -58,7 +61,7 @@ export default function Home() {
     event.preventDefault();
     setShowResults(false);
     const fileNames = _.map(_.values(selectedFiles), file => file.name);
-    const areFilenamesCorrect = _.intersection(fileNames, ['TSS.xlsx', 'NFA.xlsx', 'FINRA.xlsx']).length == 3;
+    const areFilenamesCorrect = _.intersection(fileNames, ['TSS.xlsx', 'NFA.xlsx', 'FINRA.xlsx','FINRA_P.xlsx' ]).length == 4;
 
     if (_.keys(selectedFiles).length === 0) {
       showNotification('error', 'please select files to upload.');
@@ -66,8 +69,8 @@ export default function Home() {
     else if (isUploading) {
       showNotification('error', 'Files are uploading Please wait.');
     }
-    else if (_.keys(selectedFiles).length !== 3) {
-      showNotification('error', `You are trying to upload ${_.keys(selectedFiles).length} files, system allows you exactly 3 files to be uploaded (with .xlsx extension).`);
+    else if (_.keys(selectedFiles).length !== 4) {
+      showNotification('error', `You are trying to upload ${_.keys(selectedFiles).length} files, system allows you exactly 4 files to be uploaded (with .xlsx extension).`);
     }
     else if (!areFilenamesCorrect) {
       showNotification('error', `Please upload files with 'TSS.xlsx', 'NFA.xlsx' and 'FINRA.xlsx' names.`);
@@ -124,7 +127,7 @@ export default function Home() {
                 'Process files and Download'}</button> :
               <button onClick={uploadFiles} className='tracking-wide border-solid border text-white bg-slate-700 px-6 py-2 mt-3 
               hover:bg-slate-600 border-slate-500 flex align-middle' type='submit'><Upload className='mr-2' />{isUploading ? <>Uploading...</> :
-                  'Upload files'}</button>}
+                  'Upload files'}</button>} 
           </div>
         </form>
         <ToastContainer />
