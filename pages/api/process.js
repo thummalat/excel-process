@@ -66,7 +66,6 @@ handler.get((req, res) => {
     const workBook_mod = reader.readFile('/tmp/TSS_MOD.xlsx');
     let ModTSSData = readDataFromSheet(workBook_mod, 'ModSheet');
     res.json({ data: ModTSSData, noNFARecords, modFINRAPData });
-    // res.json({ data: ModTSSData, noNFARecords });
 });
 
 function readDataFromSheet(excelName, sheetName) {
