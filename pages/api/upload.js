@@ -47,26 +47,39 @@ handler.post((req, res) => {
         }
     });
     if (hasError) {
-       return res.status(400).json({ err })
+        return res.status(400).json({ err })
     }
-    
+
     else {
-        const TSSData = readDataFromSheet(workBook, 'Sheet1');
-        const isFirstNameExists = _.includes(_.keys(_.first(TSSData)), 'First Name');
-        const isLastNameExists = _.includes(_.keys(_.first(TSSData)), 'Last Name');
-        const isReportsToNameExists = _.includes(_.keys(_.first(TSSData)), 'Last Name');
-        if(!isFirstNameExists){
-           return res.status(400).json({err:`TSS.xlsx is missing a column with name: First Name`})
+        const sheetColumnNameErrors = getSheetCoulmnNameErrors(workBook);
+        if (sheetColumnNameErrors) {
+            return res.status(400).json({ err: sheetColumnNameErrors })
         }
-        else if(!isLastNameExists){
-           return res.status(400).json({err:`TSS.xlsx is missing a column with name: Last Name`});
-        }
-        else if(!isReportsToNameExists){
-           return res.status(400).json({err:`TSS.xlsx is missing a column with name: Reports To Name`});
-        } 
-       return res.json({ data: "File upload completed" });
+        return res.json({ data: "File upload completed" });
     }
 });
+
+function getSheetCoulmnNameErrors(workBook) {
+    let errors = [];
+    let hasError = false;
+    const TSSData = readDataFromSheet(workBook, 'Sheet1');
+    const isFirstNameExists = _.includes(_.keys(_.first(TSSData)), 'First Name');
+    const isLastNameExists = _.includes(_.keys(_.first(TSSData)), 'Last Name');
+    const isReportsToNameExists = _.includes(_.keys(_.first(TSSData)), 'Reports To Name');
+    if (!isFirstNameExists) {
+        hasError = true;
+        errors.push(`First Name`);
+    }
+    if (!isLastNameExists) {
+        hasError = true;
+        errors.push(`Last Name`);
+    }
+    if (!isReportsToNameExists) {
+        hasError = true;
+        errors.push(`Reports To Name`);
+    }
+    return hasError ? `TSS.xlsx is missing ${_.join(errors, ',')} column names` : null;
+}
 
 function readDataFromSheet(excelName, sheetName) {
     let data = [];
