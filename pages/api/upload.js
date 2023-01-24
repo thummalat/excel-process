@@ -43,7 +43,7 @@ handler.post((req, res) => {
     _.forEach(sheetErrDb, (val, excelName) => {
         if (val) {
             hasError = true;
-            err += `${excelName} has improper sheet names.`;
+            err += `${excelName} has missing sheet with name: Sheet1. `;
         }
     });
     if (hasError) {
