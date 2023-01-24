@@ -47,10 +47,31 @@ handler.post((req, res) => {
         }
     });
     if (hasError) {
-        res.status(400).json({ err })
+       return res.status(400).json({ err })
     }
-    else
-        res.json({ data: "File upload completed" });
+    
+    else {
+        const TSSData = readDataFromSheet(workBook, 'Sheet1');
+        const isFirstNameExists = _.includes(_.keys(_.first(TSSData)), 'First Name');
+        const isLastNameExists = _.includes(_.keys(_.first(TSSData)), 'Last Name');
+        const isReportsToNameExists = _.includes(_.keys(_.first(TSSData)), 'Last Name');
+        if(!isFirstNameExists){
+           return res.status(400).json({err:`TSS.xlsx is missing a column with name: First Name`})
+        }
+        else if(!isLastNameExists){
+           return res.status(400).json({err:`TSS.xlsx is missing a column with name: Last Name`});
+        }
+        else if(!isReportsToNameExists){
+           return res.status(400).json({err:`TSS.xlsx is missing a column with name: Reports To Name`});
+        } 
+       return res.json({ data: "File upload completed" });
+    }
 });
+
+function readDataFromSheet(excelName, sheetName) {
+    let data = [];
+    reader.utils.sheet_to_json(excelName.Sheets[sheetName]).forEach(res => data.push(res));
+    return data;
+}
 
 export default handler;
